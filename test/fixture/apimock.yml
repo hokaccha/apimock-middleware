@@ -1,0 +1,14 @@
+-
+  request:
+    url: /api/users/:id.json
+    method: GET
+  response:
+    status: 200
+    file: json/users/<%= params.id %>.json
+-
+  request:
+    url: /api/users
+    method: POST
+  response:
+    status: 201
+    file: json/users/created.json

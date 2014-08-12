@@ -1,0 +1,32 @@
+{
+  "name": "connect-apimock",
+  "version": "0.0.1",
+  "description": "connect middleware for API Mocking.",
+  "main": "index.js",
+  "author": "Kazuhito Hokamura <k.hokamura@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "connect",
+    "mock",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hokaccha/connect-apimock.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "paramify": "^0.1.2",
+    "parseurl": "^1.3.0",
+    "underscore": "^1.6.0",
+    "yamljs": "^0.1.5"
+  },
+  "devDependencies": {
+    "body-parser": "^1.6.3",
+    "connect": "^3.1.1",
+    "mocha": "^1.21.4",
+    "supertest": "^0.13.0"
+  }
+}
