@@ -34,24 +34,22 @@ function apimock(configPath) {
       }
     });
 
-    if (route) {
-      var tmplParams = {
-        body: req.body,
-        params: req.params,
-        query: qs.parse(url.query)
-      };
+    if (!route) return next();
 
-      var jsonPath = _.template(path.join(configDir, route.response.file), tmplParams);
+    var tmplParams = {
+      body: req.body,
+      params: req.params,
+      query: qs.parse(url.query)
+    };
 
-      if (!fs.existsSync(jsonPath)) return next();
-      fs.readFile(jsonPath, function(err, json) {
-        if (err) return next(err);
-        res.statusCode = route.response.status ? _.template(route.response.status.toString(), tmplParams) : 200;
-        res.end(json);
-      });
-    }
-    else {
-      next();
-    }
+    var jsonPath = _.template(path.join(configDir, route.response.file), tmplParams);
+
+    fs.readFile(jsonPath, function(err, json) {
+      if (err) return next(err);
+
+      var status = route.response.status || 200;
+      res.statusCode = _.template(status.toString(), tmplParams);
+      res.end(json);
+    });
   };
 }

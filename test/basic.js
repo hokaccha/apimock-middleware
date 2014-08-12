@@ -27,7 +27,7 @@ describe('GET /api/users/2.json', function() {
   });
 });
 
-describe('POST /api/users', function(){
+describe('POST /api/users', function() {
   context('When set body', function() {
     it('should be success', function(done) {
       request(app)
