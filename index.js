@@ -49,6 +49,7 @@ function apimock(configPath) {
 
       var status = route.response.status || 200;
       res.statusCode = _.template(status.toString(), tmplParams);
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(json);
     });
   };
