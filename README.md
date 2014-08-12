@@ -33,6 +33,6 @@ apimock.yml
     url: /api/users
     method: POST
   response:
-    status: 201
-    file: json/users/created.json
+    status: <%= body.name ? 201 : 422 %>
+    file: json/users/<%= body.name ? 'created' : 'failed' %>.json
 ```
