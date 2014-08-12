@@ -31,18 +31,17 @@ http.createServer(app).listen(3000);
 apimock.yml
 
 ```yaml
--
-  request:
+- request:
     url: /api/users/:id.json
     method: GET
   response:
     status: 200
-    file: json/users/<%= params.id %>.json
--
-  request:
+    file: "json/users/<%= params.id %>.json"
+
+- request:
     url: /api/users
     method: POST
   response:
-    status: <%= body.name ? 201 : 422 %>
-    file: json/users/<%= body.name ? 'created' : 'failed' %>.json
+    status: "<%= body.name ? 201 : 422 %>"
+    file: "json/users/<%= body.name ? 'created' : 'failed' %>.json"
 ```
