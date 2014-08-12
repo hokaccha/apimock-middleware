@@ -45,3 +45,21 @@ describe('POST /api/users', function(){
     });
   });
 });
+
+describe('GET /api/foo', function() {
+  it('should be 404', function(done) {
+    request(app)
+      .put('/api/foo')
+      .expect(404)
+      .end(done);
+  });
+});
+
+describe('PUT /api/users', function() {
+  it('should be 404', function(done) {
+    request(app)
+      .put('/api/users')
+      .expect(404)
+      .end(done);
+  });
+});
