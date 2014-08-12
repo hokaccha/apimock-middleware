@@ -35,16 +35,18 @@ function apimock(configPath) {
     });
 
     if (route) {
-      var jsonPath = _.template(path.join(configDir, route.response.file), {
+      var tmplParams = {
         body: req.body,
         params: req.params,
         query: qs.parse(url.query)
-      });
+      };
+
+      var jsonPath = _.template(path.join(configDir, route.response.file), tmplParams);
 
       if (!fs.existsSync(jsonPath)) return next();
       fs.readFile(jsonPath, function(err, json) {
         if (err) return next(err);
-        res.statusCode = route.response.status || 200;
+        res.statusCode = route.response.status ? _.template(route.response.status.toString(), tmplParams) : 200;
         res.end(json);
       });
     }

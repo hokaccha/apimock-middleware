@@ -28,10 +28,20 @@ describe('GET /api/users/2.json', function() {
 });
 
 describe('POST /api/users', function(){
-  it('respond with json', function(done) {
-    request(app)
-      .post('/api/users')
-      .expect(201, '{"result":"ok"}\n')
-      .end(done);
+  context('When set body', function() {
+    it('should be success', function(done) {
+      request(app)
+        .post('/api/users')
+        .send({ name: 'foo' })
+        .expect(201, '{"result":"ok"}\n')
+        .end(done);
+    });
+
+    it('should failed', function(done) {
+      request(app)
+        .post('/api/users')
+        .expect(422, '{"result":"error"}\n')
+        .end(done);
+    });
   });
 });
