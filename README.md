@@ -4,6 +4,12 @@ connect middleware for API Mocking.
 
 inspired by [stubcell](https://github.com/yosuke-furukawa/stubcell)
 
+## Install
+
+```
+$ npm install connect-apimock
+```
+
 ## Usage 
 
 server.js
@@ -12,7 +18,7 @@ server.js
 var http = require('http');
 var connect = require('connect');
 var bodyParser = require('body-parser');
-var apimock = require('apimock');
+var apimock = require('connect-apimock');
 var app = connect();
 
 app.use(bodyParser.urlencoded({ extended: false }));
