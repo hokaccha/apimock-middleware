@@ -69,6 +69,17 @@ describe('POST /api/users', function() {
         .end(done);
     });
   });
+
+  context('When set body name to foo', function() {
+    it('should be created.json', function(done) {
+      request(app)
+        .post('/api/users')
+        .send({ name: 'foo' })
+        .expect('Content-Type', /json/)
+        .expect(201, '{"result":"ok"}\n')
+        .end(done);
+    });
+  });
 });
 
 describe('GET /api/foo', function() {
