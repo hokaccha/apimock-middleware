@@ -20,18 +20,24 @@ function apimock(configPath) {
   return function(req, res, next) {
     var routes = yaml.load(configPath);
     var url = parseurl(req);
+    var query = qs.parse(url.query);
     var route = _.find(routes, function(_route) {
       var method = _route.request.method ? _route.request.method.toUpperCase() : 'GET';
       if (method !== req.method) return false;
 
       var match = paramify(url.pathname);
-      if (match(_route.request.url)) {
-        req.params = match.params;
-        return true;
+      if (!match(_route.request.url)) return false;
+      req.params = match.params;
+
+      if (_route.request.body) {
+        return includeEqual(_route.request.body, req.body);
       }
-      else {
-        return false;
+
+      if (_route.request.query) {
+        return includeEqual(_route.request.query, query);
       }
+
+      return true;
     });
 
     if (!route) return next();
@@ -39,7 +45,7 @@ function apimock(configPath) {
     var tmplParams = {
       body: req.body,
       params: req.params,
-      query: qs.parse(url.query)
+      query: query
     };
 
     var jsonPath = _.template(path.join(configDir, route.response.file), tmplParams);
@@ -53,4 +59,21 @@ function apimock(configPath) {
       res.end(json);
     });
   };
+}
+
+// from https://github.com/yosuke-furukawa/stubcell/blob/master/lib/check.js
+function includeEqual(small, large){
+  if (small === large) return true;
+
+  if (typeof small != 'object' && typeof large != 'object') {
+    return small == large;
+  }
+
+  var attrs = Object.keys(small);
+  for (var i = 0; i < attrs.length; i++) {
+    var attr = attrs[i];
+    if (!includeEqual(small[attr], large[attr])) return false;
+  }
+
+  return true;
 }

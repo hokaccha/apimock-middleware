@@ -30,6 +30,27 @@ describe('GET /api/users/2.json', function() {
 });
 
 describe('POST /api/users', function() {
+  context('When set body name to n1', function() {
+    it('should be n1.json', function(done) {
+      request(app)
+        .post('/api/users')
+        .send({ name: 'n1' })
+        .expect('Content-Type', /json/)
+        .expect(201, '{"name":"n1"}\n')
+        .end(done);
+    });
+  });
+
+  context('When set query name to n2', function() {
+    it('should be n2.json', function(done) {
+      request(app)
+        .post('/api/users?name=n2')
+        .expect('Content-Type', /json/)
+        .expect(201, '{"name":"n2"}\n')
+        .end(done);
+    });
+  });
+
   context('When set body', function() {
     it('should be success', function(done) {
       request(app)

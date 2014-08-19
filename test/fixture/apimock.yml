@@ -8,6 +8,24 @@
 - request:
     url: /api/users
     method: POST
+    body:
+      name: n1
+  response:
+    status: 201
+    file: "json/users/n1.json"
+
+- request:
+    url: /api/users
+    method: POST
+    query:
+      name: n2
+  response:
+    status: 201
+    file: "json/users/n2.json"
+
+- request:
+    url: /api/users
+    method: POST
   response:
     status: "<%= body.name ? 201 : 422 %>"
     file: "json/users/<%= body.name ? 'created' : 'failed' %>.json"
