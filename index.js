@@ -37,6 +37,10 @@ function apimock(configPath) {
         return includeEqual(_route.request.query, query);
       }
 
+      if (_route.request.header) {
+        return includeEqual(toLowerKeys(_route.request.header), req.headers);
+      }
+
       return true;
     });
 
@@ -45,7 +49,8 @@ function apimock(configPath) {
     var tmplParams = {
       body: req.body,
       params: req.params,
-      query: query
+      query: query,
+      header: req.headers
     };
 
     var jsonPath = _.template(path.join(configDir, route.response.file), tmplParams);
@@ -65,7 +70,7 @@ function apimock(configPath) {
 function includeEqual(small, large){
   if (small === large) return true;
 
-  if (typeof small != 'object' && typeof large != 'object') {
+  if (typeof small !== 'object' && typeof large !== 'object') {
     return small == large;
   }
 
@@ -76,4 +81,11 @@ function includeEqual(small, large){
   }
 
   return true;
+}
+
+function toLowerKeys(obj) {
+  return _.chain(obj)
+    .map(function(val, key) { return [key.toLowerCase(), val]; } )
+    .object()
+    .value();
 }

@@ -17,6 +17,17 @@ describe('GET /api/users/1.json', function() {
       .expect(200, '{"id":1,"name":"foo"}\n')
       .end(done);
   });
+
+  context('When set X-Foo header', function() {
+    it.only('respond with foo.json', function(done) {
+      request(app)
+        .get('/api/users/1.json')
+        .set('X-Foo', 'foo')
+        .expect('Content-Type', /json/)
+        .expect(200, '{"result":"x-foo"}\n')
+        .end(done);
+    });
+  });
 });
 
 describe('GET /api/users/2.json', function() {

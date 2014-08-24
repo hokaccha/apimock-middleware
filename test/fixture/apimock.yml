@@ -1,6 +1,15 @@
 - request:
     url: /api/users/:id.json
     method: GET
+    header:
+      X-Foo: 'foo'
+  response:
+    status: 200
+    file: "json/users/<%= header['x-foo'] %>.json"
+
+- request:
+    url: /api/users/:id.json
+    method: GET
   response:
     status: 200
     file: "json/users/<%= params.id %>.json"
