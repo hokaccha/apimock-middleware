@@ -1,6 +1,6 @@
 {
   "name": "connect-apimock",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "connect middleware for API Mocking.",
   "main": "index.js",
   "author": "Kazuhito Hokamura <k.hokamura@gmail.com>",
