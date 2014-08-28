@@ -1,18 +1,20 @@
 {
-  "name": "connect-apimock",
-  "version": "0.0.4",
-  "description": "connect middleware for API Mocking.",
+  "name": "apimock-middleware",
+  "version": "0.0.1",
+  "description": "Node.js API Mocking middleware.",
   "main": "index.js",
   "author": "Kazuhito Hokamura <k.hokamura@gmail.com>",
   "license": "MIT",
   "keywords": [
+    "express",
     "connect",
+    "middleware",
     "mock",
     "api"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/hokaccha/connect-apimock.git"
+    "url": "https://github.com/hokaccha/apimock-middleware.git"
   },
   "scripts": {
     "test": "mocha"
