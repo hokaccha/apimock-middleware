@@ -53,16 +53,25 @@ function apimock(configPath) {
       header: req.headers
     };
 
-    var jsonPath = _.template(path.join(configDir, route.response.file), tmplParams);
+    var filepath = _.template(path.join(configDir, route.response.file), tmplParams);
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
-    fs.readFile(jsonPath, function(err, json) {
-      if (err) return next(err);
+    if (route.response.type === 'js') {
+      delete require.cache[filepath];
+      var fn = require(filepath);
+      var result = fn(tmplParams);
+      res.statusCode = result.status || 200;
+      res.end(JSON.stringify(result.json));
+    }
+    else {
+      fs.readFile(filepath, function(err, json) {
+        if (err) return next(err);
 
-      var status = route.response.status || 200;
-      res.statusCode = _.template(status.toString(), tmplParams);
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(json);
-    });
+        var status = route.response.status || 200;
+        res.statusCode = _.template(status.toString(), tmplParams);
+        res.end(json);
+      });
+    }
   };
 }
 

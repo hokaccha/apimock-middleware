@@ -38,3 +38,10 @@
   response:
     status: "<%= body.name ? 201 : 422 %>"
     file: "json/users/<%= body.name ? 'created' : 'failed' %>.json"
+
+- request:
+    url: /api/users/js
+    method: POST
+  response:
+    type: js
+    file: "json/users/users.js"

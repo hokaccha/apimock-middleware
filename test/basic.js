@@ -110,3 +110,14 @@ describe('PUT /api/users', function() {
       .end(done);
   });
 });
+
+describe('Response with js file', function() {
+  it.only('should be return with result executed the js file.', function(done) {
+    request(app)
+      .post('/api/users/js')
+      .send({ name: 'kazuhito hokamura', age: 30 })
+      .expect('Content-Type', /json/)
+      .expect(201, '{"name":"kazuhito hokamura","age":30}')
+      .end(done);
+  });
+});
