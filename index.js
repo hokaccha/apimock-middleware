@@ -53,7 +53,7 @@ function apimock(configPath) {
       header: req.headers
     };
 
-    var filepath = _.template(path.join(configDir, route.response.file), tmplParams);
+    var filepath = _.template(path.join(configDir, route.response.file))(tmplParams);
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
     if (route.response.type === 'js') {
@@ -68,7 +68,7 @@ function apimock(configPath) {
         if (err) return next(err);
 
         var status = route.response.status || 200;
-        res.statusCode = _.template(status.toString(), tmplParams);
+        res.statusCode = _.template(status.toString())(tmplParams);
         res.end(json);
       });
     }
