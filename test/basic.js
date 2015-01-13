@@ -120,4 +120,15 @@ describe('Response with js file', function() {
       .expect(201, '{"name":"kazuhito hokamura","age":30}')
       .end(done);
   });
+
+  context('when return promise object', function() {
+    it('should wait to resolve the promise', function(done) {
+      request(app)
+        .post('/api/users/js_promise')
+        .send({ name: 'kazuhito hokamura', age: 30 })
+        .expect('Content-Type', /json/)
+        .expect(201, '{"name":"kazuhito hokamura","age":30}')
+        .end(done);
+    });
+  });
 });

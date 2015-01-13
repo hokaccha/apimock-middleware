@@ -54,22 +54,30 @@ function apimock(configPath) {
     };
 
     var filepath = _.template(path.join(configDir, route.response.file))(tmplParams);
+    var handleRes = handleResponse.bind(null, res);
+
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
     if (route.response.type === 'js') {
       delete require.cache[filepath];
       var fn = require(filepath);
       var result = fn(tmplParams);
-      res.statusCode = result.status || 200;
-      res.end(JSON.stringify(result.json));
+      if (typeof result.then === 'function') {
+        result.then(handleRes, next);
+      }
+      else {
+        handleRes(result);
+      }
     }
     else {
       fs.readFile(filepath, function(err, json) {
         if (err) return next(err);
 
         var status = route.response.status || 200;
-        res.statusCode = _.template(status.toString())(tmplParams);
-        res.end(json);
+        handleRes({
+          status: _.template(status.toString())(tmplParams),
+          json: json.toString()
+        });
       });
     }
   };
@@ -97,4 +105,16 @@ function toLowerKeys(obj) {
     .map(function(val, key) { return [key.toLowerCase(), val]; } )
     .object()
     .value();
+}
+
+function handleResponse(res, data) {
+  var code = data.status || 200;
+  var json = data.json;
+
+  if (typeof json !== 'string') {
+    json = JSON.stringify(json);
+  }
+
+  res.statusCode = code;
+  res.end(json);
 }

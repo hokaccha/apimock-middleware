@@ -45,3 +45,10 @@
   response:
     type: js
     file: "json/users/users.js"
+
+- request:
+    url: /api/users/js_promise
+    method: POST
+  response:
+    type: js
+    file: "json/users/users_promise.js"
