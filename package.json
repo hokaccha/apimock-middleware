@@ -1,6 +1,6 @@
 {
   "name": "apimock-middleware",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Node.js API Mocking middleware.",
   "main": "index.js",
   "author": "Kazuhito Hokamura <k.hokamura@gmail.com>",
