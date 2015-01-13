@@ -19,7 +19,7 @@ describe('GET /api/users/1.json', function() {
   });
 
   context('When set X-Foo header', function() {
-    it.only('respond with foo.json', function(done) {
+    it('respond with foo.json', function(done) {
       request(app)
         .get('/api/users/1.json')
         .set('X-Foo', 'foo')
@@ -112,7 +112,7 @@ describe('PUT /api/users', function() {
 });
 
 describe('Response with js file', function() {
-  it.only('should be return with result executed the js file.', function(done) {
+  it('should be return with result executed the js file.', function(done) {
     request(app)
       .post('/api/users/js')
       .send({ name: 'kazuhito hokamura', age: 30 })
