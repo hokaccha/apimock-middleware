@@ -38,6 +38,16 @@ describe('GET /api/users/2.json', function() {
       .expect(200, '{"id":2,"name":"bar"}\n')
       .end(done);
   });
+
+  context('When set Content-Type header', function() {
+    it('response with html', function(done) {
+      request(app)
+        .get('/api/users/2.html')
+        .expect('Content-Type', 'text/html')
+        .expect(200, '<body>id:2, name: foo</body>\n')
+        .end(done);
+    });
+  });
 });
 
 describe('POST /api/users', function() {

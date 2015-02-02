@@ -56,8 +56,6 @@ function apimock(configPath) {
     var filepath = _.template(path.join(configDir, route.response.file))(tmplParams);
     var handleRes = handleResponse.bind(null, res);
 
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-
     if (route.response.type === 'js') {
       delete require.cache[filepath];
       var fn = require(filepath);
@@ -70,13 +68,14 @@ function apimock(configPath) {
       }
     }
     else {
-      fs.readFile(filepath, function(err, json) {
+      fs.readFile(filepath, function(err, body) {
         if (err) return next(err);
 
         var status = route.response.status || 200;
         handleRes({
           status: _.template(status.toString())(tmplParams),
-          json: json.toString()
+          header: route.response.header,
+          body: body.toString()
         });
       });
     }
@@ -109,12 +108,20 @@ function toLowerKeys(obj) {
 
 function handleResponse(res, data) {
   var code = data.status || 200;
+  var header = _.defaults({}, data.header, {
+    'Content-Type': 'application/json; charset=utf-8'
+  });
   var json = data.json;
+  var body = data.body;
 
-  if (typeof json !== 'string') {
-    json = JSON.stringify(json);
+  if (json !== undefined) {
+    body = typeof json === 'string' ? json : JSON.stringify(json);
   }
 
+  _.each(header, function(val, key) {
+    res.setHeader(key, val);
+  });
+
   res.statusCode = code;
-  res.end(json);
+  res.end(body);
 }

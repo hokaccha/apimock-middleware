@@ -15,6 +15,15 @@
     file: "json/users/<%= params.id %>.json"
 
 - request:
+    url: /api/users/:id.html
+    method: GET
+  response:
+    status: 200
+    header:
+      'Content-Type': 'text/html'
+    file: "json/users/<%= params.id %>.html"
+
+- request:
     url: /api/users
     method: POST
     body:
