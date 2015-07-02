@@ -53,7 +53,7 @@ function apimock(configPath) {
       header: req.headers
     };
 
-    var filepath = _.template(path.join(configDir, route.response.file))(tmplParams);
+    var filepath = path.join(configDir, _.template(route.response.file)(tmplParams));
     var handleRes = handleResponse.bind(null, res);
 
     if (route.response.type === 'js') {

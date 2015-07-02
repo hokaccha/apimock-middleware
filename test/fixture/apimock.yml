@@ -46,7 +46,7 @@
     method: POST
   response:
     status: "<%= body.name ? 201 : 422 %>"
-    file: "json/users/<%= body.name ? 'created' : 'failed' %>.json"
+    file: "<%= body.name ? 'json/users/created' : 'json/users/failed' %>.json"
 
 - request:
     url: /api/users/js
