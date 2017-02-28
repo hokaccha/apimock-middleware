@@ -2,6 +2,8 @@
 
 Node.js API Mocking middleware.
 
+WITH ADDED DELAY PROPERTY.
+
 inspired by [stubcell](https://github.com/yosuke-furukawa/stubcell)
 
 ## Install
@@ -10,7 +12,7 @@ inspired by [stubcell](https://github.com/yosuke-furukawa/stubcell)
 $ npm install apimock-middleware
 ```
 
-## Usage 
+## Usage
 
 server.js
 
@@ -34,6 +36,7 @@ apimock.yml
 - request:
     url: /api/users/:id.json
     method: GET
+    delay: 300
   response:
     status: 200
     file: "json/users/<%= params.id %>.json"
