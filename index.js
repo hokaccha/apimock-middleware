@@ -56,29 +56,35 @@ function apimock(configPath) {
     var filepath = path.join(configDir, _.template(route.response.file)(tmplParams));
     var handleRes = handleResponse.bind(null, res);
 
-    if (route.response.type === 'js') {
-      delete require.cache[filepath];
-      var fn = require(filepath);
-      var result = fn(tmplParams);
-      if (typeof result.then === 'function') {
-        result.then(handleRes, next);
+    var delay = route.request.delay;
+
+    var sendResponse = function() {
+      if (route.response.type === 'js') {
+        delete require.cache[filepath];
+        var fn = require(filepath);
+        var result = fn(tmplParams);
+        if (typeof result.then === 'function') {
+          result.then(handleRes, next);
+        }
+        else {
+          handleRes(result);
+        }
       }
       else {
-        handleRes(result);
+        fs.readFile(filepath, function(err, body) {
+          if (err) return next(err);
+
+          var status = route.response.status || 200;
+          handleRes({
+            status: _.template(status.toString())(tmplParams),
+            header: route.response.header,
+            body: body.toString()
+          });
+        });
       }
     }
-    else {
-      fs.readFile(filepath, function(err, body) {
-        if (err) return next(err);
 
-        var status = route.response.status || 200;
-        handleRes({
-          status: _.template(status.toString())(tmplParams),
-          header: route.response.header,
-          body: body.toString()
-        });
-      });
-    }
+    setTimeout(sendResponse, delay);
   };
 }
 
